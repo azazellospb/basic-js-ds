@@ -1,6 +1,6 @@
 const { NotImplementedError } = require('../extensions/index.js');
 
-// const { ListNode } = require('../extensions/list-node.js');
+const { ListNode } = require('../extensions/list-node.js');
 
 /**
  * Implement the Queue with a given interface via linked list (use ListNode extension above).
@@ -14,21 +14,34 @@ const { NotImplementedError } = require('../extensions/index.js');
  * queue.getUnderlyingList() // returns { value: 3, next: null }
  */
 class Queue {
-
-  getUnderlyingList() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor() {
+    this.first=null;
+    this.last=null;
+    
   }
 
-  enqueue(/* value */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  getUnderlyingList() {
+    return this.first;
+  }
+
+
+
+  enqueue(value) {
+    let newNode = new ListNode(value);
+    if (this.last==null) {this.first=newNode; this.last=newNode;} //создается ссылка на один новый объект newNode
+    else { this.last.next=newNode; //здесь next надо воспринимать как "следующий за",
+    // т.е. сначала мы записываем в ячейку next последнего элемента ссылку на новый объект
+    this.last=newNode;  // затем мы "подвязываем" к последнему элементу ссылку на новый объект.
+    }
   }
 
   dequeue() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
+    if (this.first==null) return null;
+    let result = this.first.value; //сохраняем значение первого элемента до затирания
+    this.first=this.first.next; //подтягиваем хвост очереди
+    if (this.first==null) this.last==null; //действие выполняется тогда, когда уже нет элементов в очереди
+    return result;
+}
 }
 
 module.exports = {
